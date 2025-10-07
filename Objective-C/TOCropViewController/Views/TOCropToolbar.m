@@ -77,11 +77,11 @@
         containerView = _glassView.contentView;
         _showOnlyIcons = YES;
     } else {
-        self.backgroundView.backgroundColor = [UIColor colorWithWhite:0.55f alpha:1.0f];
+        self.backgroundView.backgroundColor = [UIColor colorWithWhite:0.12f alpha:1.0f];
         [self addSubview:self.backgroundView];
     }
 #else
-    self.backgroundView.backgroundColor = [UIColor colorWithWhite:0.55f alpha:1.0f];
+    self.backgroundView.backgroundColor = [UIColor colorWithWhite:0.12f alpha:1.0f];
     [self addSubview:self.backgroundView];
 #endif
 
