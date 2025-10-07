@@ -54,7 +54,9 @@
 
 - (void)setup {
     self.backgroundView = [[UIView alloc] initWithFrame:self.bounds];
-    self.backgroundView.backgroundColor = [UIColor colorWithWhite:0.12f alpha:1.0f];
+
+    UIView *containerView = self;
+    self.backgroundView.backgroundColor = [UIColor colorWithWhite:0.12f alpha:1.0f]; //0.98f for light theme
     [self addSubview:self.backgroundView];
     
     // On iOS 9 and up, we can use the new layout features to determine whether we're in an 'Arabic' style language mode
@@ -139,6 +141,39 @@
                                                                          resourceBundle,
                                                                          nil);
     [self addSubview:_resetButton];
+}
+
+- (void)setUsesDarkTheme:(BOOL)usesDarkTheme
+{
+    if (_usesDarkTheme == usesDarkTheme) { return; }
+    _usesDarkTheme = usesDarkTheme;
+
+    UIColor *bg = usesDarkTheme ? [UIColor colorWithWhite:0.12f alpha:1.0f] : [UIColor colorWithWhite:0.98f alpha:1.0f];
+    UIColor *iconTint = usesDarkTheme ? [UIColor whiteColor] : [UIColor blackColor];
+
+#ifdef __IPHONE_26_0
+    if (@available(iOS 26.0, *)) {
+        // On iOS 26, buttons are in a glass container; update baseForegroundColor/tints
+        _clampButton.tintColor = iconTint;
+        _rotateCounterclockwiseButton.tintColor = iconTint;
+        _rotateClockwiseButton.tintColor = iconTint;
+        _resetButton.tintColor = iconTint;
+    } else {
+        self.backgroundView.backgroundColor = bg;
+        _clampButton.tintColor = iconTint;
+        _rotateCounterclockwiseButton.tintColor = iconTint;
+        _rotateClockwiseButton.tintColor = iconTint;
+        _resetButton.tintColor = iconTint;
+    }
+#else
+    self.backgroundView.backgroundColor = bg;
+    _clampButton.tintColor = iconTint;
+    _rotateCounterclockwiseButton.tintColor = iconTint;
+    _rotateClockwiseButton.tintColor = iconTint;
+    _resetButton.tintColor = iconTint;
+#endif
+
+    // Keep done/cancel colors as-is unless explicitly overridden by host using setters
 }
 
 - (void)layoutSubviews

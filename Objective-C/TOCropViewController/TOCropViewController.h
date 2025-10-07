@@ -365,6 +365,12 @@
  */
 @property (nullable, nonatomic, strong) void (^onDidCropToCircleImage)(UIImage* _Nonnull image, CGRect cropRect, NSInteger angle);
 
+/**
+ Controls whether the controller uses a dark or light color theme for its UI elements.
+ Default is YES (dark theme).
+ */
+@property (nonatomic, assign) BOOL usesDarkTheme;
+
 
 ///------------------------------------------------
 /// @name Object Creation

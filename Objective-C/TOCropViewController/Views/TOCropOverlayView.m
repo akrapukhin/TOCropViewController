@@ -223,9 +223,23 @@ static const CGFloat kTOCropOverLayerCornerWidth = 20.0f;
 
 - (nonnull UIView *)createNewLineView {
     UIView *newLine = [[UIView alloc] initWithFrame:CGRectZero];
-    newLine.backgroundColor = [UIColor whiteColor];
+    newLine.backgroundColor = [UIColor whiteColor]; // [UIColor blackColor] for light theme
     [self addSubview:newLine];
     return newLine;
+}
+
+- (void)setUsesDarkTheme:(BOOL)usesDarkTheme
+{
+    if (_usesDarkTheme == usesDarkTheme) { return; }
+    _usesDarkTheme = usesDarkTheme;
+
+    UIColor *lineColor = usesDarkTheme ? [UIColor whiteColor] : [UIColor blackColor];
+    for (UIView *line in self.horizontalGridLines) { line.backgroundColor = lineColor; }
+    for (UIView *line in self.verticalGridLines) { line.backgroundColor = lineColor; }
+    for (UIView *line in self.outerLineViews) { line.backgroundColor = lineColor; }
+    for (NSArray *corner in @[self.topLeftLineViews, self.topRightLineViews, self.bottomRightLineViews, self.bottomLeftLineViews]) {
+        for (UIView *line in corner) { line.backgroundColor = lineColor; }
+    }
 }
 
 @end

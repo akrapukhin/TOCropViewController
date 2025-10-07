@@ -89,7 +89,7 @@ public typealias CropViewCroppingStyle = TOCropViewCroppingStyle
 // ------------------------------------------------
 
 open class CropViewController: UIViewController, TOCropViewControllerDelegate {
-    
+
     /**
      The original, uncropped image that was passed to this controller.
      */
@@ -472,6 +472,14 @@ open class CropViewController: UIViewController, TOCropViewControllerDelegate {
     public var reverseContentLayout: Bool {
         set { toCropViewController.reverseContentLayout = newValue }
         get { toCropViewController.reverseContentLayout }
+    }
+
+    /**
+     Controls whether the controller uses a dark or light color theme (default is dark).
+     */
+    public var usesDarkTheme: Bool {
+        set { toCropViewController.usesDarkTheme = newValue }
+        get { return toCropViewController.usesDarkTheme }
     }
 
     /**

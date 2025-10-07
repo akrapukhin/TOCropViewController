@@ -194,6 +194,12 @@ The minimum croping aspect ratio. If set, user is prevented from setting croppin
  */
 @property (nonatomic, assign) BOOL translucencyAlwaysHidden;
 
+/**
+ Controls whether the crop view uses a dark or light color theme.
+ Default is YES (dark theme).
+ */
+@property (nonatomic, assign) BOOL usesDarkTheme;
+
 ///*
 // if YES it will always show grid
 // if NO it will never show grid

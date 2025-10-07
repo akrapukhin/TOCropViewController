@@ -80,7 +80,12 @@ static const CGFloat kTOCropViewControllerToolbarHeight = 44.0f;
         // Init parameters
         _image = image;
         _croppingStyle = style;
-        
+
+        if (@available(iOS 13.0, *)) {
+            self.overrideUserInterfaceStyle = UIUserInterfaceStyleDark;
+        }
+
+        _usesDarkTheme = YES; // default
         // Set up base view controller behaviour
         self.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
         self.modalPresentationStyle = UIModalPresentationFullScreen;
@@ -1070,6 +1075,7 @@ static const CGFloat kTOCropViewControllerToolbarHeight = 44.0f;
     // don't add it until our parent view controller view has loaded at the right time
     if (!_cropView) {
         _cropView = [[TOCropView alloc] initWithCroppingStyle:self.croppingStyle image:self.image];
+        _cropView.usesDarkTheme = self.usesDarkTheme;
         _cropView.delegate = self;
         _cropView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         [self.view addSubview:_cropView];
@@ -1081,10 +1087,26 @@ static const CGFloat kTOCropViewControllerToolbarHeight = 44.0f;
 {
     if (!_toolbar) {
         _toolbar = [[TOCropToolbar alloc] initWithFrame:CGRectZero];
+        _toolbar.usesDarkTheme = self.usesDarkTheme;
         [self.view addSubview:_toolbar];
     }
     return _toolbar;
 }
+- (void)setUsesDarkTheme:(BOOL)usesDarkTheme
+{
+    if (_usesDarkTheme == usesDarkTheme) { return; }
+    _usesDarkTheme = usesDarkTheme;
+
+    // Propagate to child views
+    self.cropView.usesDarkTheme = usesDarkTheme;
+    self.toolbar.usesDarkTheme = usesDarkTheme;
+
+    // Update status bar/content appearance when possible
+    if (@available(iOS 13.0, *)) {
+        self.overrideUserInterfaceStyle = usesDarkTheme ? UIUserInterfaceStyleDark : UIUserInterfaceStyleLight;
+    }
+}
+
 
 - (UILabel *)titleLabel
 {

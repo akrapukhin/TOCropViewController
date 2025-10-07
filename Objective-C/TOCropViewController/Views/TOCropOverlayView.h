@@ -38,6 +38,12 @@ NS_ASSUME_NONNULL_BEGIN
 /** Shows and hides the interior grid lines with an optional crossfade animation. */
 - (void)setGridHidden:(BOOL)hidden animated:(BOOL)animated;
 
+/**
+ Controls whether the overlay uses a dark or light color theme.
+ Default is YES (dark theme).
+ */
+@property (nonatomic, assign) BOOL usesDarkTheme;
+
 @end
 
 NS_ASSUME_NONNULL_END

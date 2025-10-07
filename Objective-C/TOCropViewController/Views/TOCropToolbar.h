@@ -92,6 +92,12 @@ NS_ASSUME_NONNULL_BEGIN
 /* Done button frame for popover controllers */
 @property (nonatomic, readonly) CGRect doneButtonFrame;
 
+/**
+ Controls whether the toolbar uses a dark or light color theme.
+ Default is YES (dark theme).
+ */
+@property (nonatomic, assign) BOOL usesDarkTheme;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -24,7 +24,7 @@
 #import "TOCropOverlayView.h"
 #import "TOCropScrollView.h"
 
-#define TOCROPVIEW_BACKGROUND_COLOR [UIColor colorWithWhite:0.12f alpha:1.0f]
+#define TOCROPVIEW_BACKGROUND_COLOR [UIColor colorWithWhite:0.12f alpha:1.0f] //0.98f for light theme
 
 static const CGFloat kTOCropViewPadding = 14.0f;
 static const NSTimeInterval kTOCropTimerDuration = 0.8f;
@@ -220,6 +220,7 @@ typedef NS_ENUM(NSInteger, TOCropViewOverlayEdge) {
     
     // The white grid overlay view
     self.gridOverlayView = [[TOCropOverlayView alloc] initWithFrame:self.foregroundContainerView.frame];
+    self.gridOverlayView.usesDarkTheme = self.usesDarkTheme;
     self.gridOverlayView.userInteractionEnabled = NO;
     self.gridOverlayView.gridHidden = YES;
     [self addSubview:self.gridOverlayView];
@@ -230,6 +231,30 @@ typedef NS_ENUM(NSInteger, TOCropViewOverlayEdge) {
     [self.scrollView.panGestureRecognizer requireGestureRecognizerToFail:self.gridPanGestureRecognizer];
     [self addGestureRecognizer:self.gridPanGestureRecognizer];
 }
+- (void)setUsesDarkTheme:(BOOL)usesDarkTheme
+{
+    if (_usesDarkTheme == usesDarkTheme) { return; }
+    _usesDarkTheme = usesDarkTheme;
+
+    UIColor *background = usesDarkTheme ? [UIColor colorWithWhite:0.12f alpha:1.0f]
+                                        : [UIColor colorWithWhite:0.98f alpha:1.0f];
+    self.backgroundColor = background;
+    self.overlayView.backgroundColor = [background colorWithAlphaComponent:usesDarkTheme ? 0.35f : 0.25f];
+
+    if (NSClassFromString(@"UIVisualEffectView")) {
+        if (usesDarkTheme) {
+            self.translucencyEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+        } else {
+            self.translucencyEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+        }
+        if ([self.translucencyView isKindOfClass:[UIVisualEffectView class]] && self.dynamicBlurEffect) {
+            ((UIVisualEffectView *)self.translucencyView).effect = self.translucencyEffect;
+        }
+    }
+
+    self.gridOverlayView.usesDarkTheme = usesDarkTheme;
+}
+
 
 #pragma mark - View Layout -
 - (void)performInitialSetup
