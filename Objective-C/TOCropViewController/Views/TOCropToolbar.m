@@ -77,11 +77,11 @@
         containerView = _glassView.contentView;
         _showOnlyIcons = YES;
     } else {
-        self.backgroundView.backgroundColor = [UIColor colorWithWhite:0.98f alpha:1.0f];
+        self.backgroundView.backgroundColor = [UIColor colorWithWhite:0.55f alpha:1.0f];
         [self addSubview:self.backgroundView];
     }
 #else
-    self.backgroundView.backgroundColor = [UIColor colorWithWhite:0.98f alpha:1.0f];
+    self.backgroundView.backgroundColor = [UIColor colorWithWhite:0.55f alpha:1.0f];
     [self addSubview:self.backgroundView];
 #endif
 
@@ -184,7 +184,7 @@
 
     _resetButton = [UIButton buttonWithType:UIButtonTypeSystem];
     _resetButton.contentMode = UIViewContentModeCenter;
-    _resetButton.tintColor = [UIColor grayColor];
+    _resetButton.tintColor = [UIColor whiteColor];
     _resetButton.enabled = NO;
     [_resetButton setImage:[TOCropToolbar resetImage] forState:UIControlStateNormal];
     [_resetButton addTarget:self action:@selector(buttonTapped:) forControlEvents:UIControlEventTouchUpInside];
